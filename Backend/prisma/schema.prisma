@@ -12,23 +12,23 @@ datasource db {
 
 // Define Prisma model
 model Event {
-  id           Int      @id @default(autoincrement())
-  object       String
-  actor_id     String
-  actor_name   String
-  group        String
-  action       Action   @relation(fields: [actionId], references: [id])
-  actionId     Int
-  target_id    String
-  target_name  String
-  location     String
-  occurred_at  DateTime @default(now())
-  metadata     String //Stringified Json "sqlite does not support Json Type"
+  id          Int      @id @default(autoincrement())
+  object      String
+  actor_id    String
+  actor_name  String
+  group       String
+  action      Action   @relation("EventToAction", fields: [actionId], references: [id])
+  actionId    Int
+  target_id   String
+  target_name String
+  location    String
+  occurred_at DateTime @default(now())
+  metadata    String //Stringified Json "sqlite does not support Json Type"
 }
 
 model Action {
   id     Int     @id @default(autoincrement())
   object String
   name   String // could be made as enum "sqlite does not support enums"
-  events Event[]
+  events Event[] @relation("EventToAction")
 }

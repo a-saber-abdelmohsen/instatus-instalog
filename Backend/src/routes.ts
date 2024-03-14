@@ -1,5 +1,5 @@
 import { Express, Request, Response } from 'express'
-import { createEvent } from './controllers/events.controller';
+import { createEvent, getEvents } from './controllers/events.controller';
 
 function routes(app: Express) {
     app.all("/health", (req: Request, res: Response) => res.sendStatus(200));
@@ -11,7 +11,8 @@ function routes(app: Express) {
 
     //     })
 
-    app.post("/events", createEvent)
+    app.post("/events", createEvent);
+    app.get("/events", getEvents);
 }
 
 

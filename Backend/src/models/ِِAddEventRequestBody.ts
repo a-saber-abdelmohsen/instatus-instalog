@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Action, Event } from "@prisma/client";
 
-export interface EventRequestBody {
+export interface AddEventRequestBody {
     id: string;
     object: string;
     actor_id: string;
@@ -23,7 +23,7 @@ export interface EventRequestBody {
 }
 
 
-export function validateEventRequestBody(body: any): Joi.ValidationResult {
+export function validateAddEventRequestBody(body: any): Joi.ValidationResult {
     const schema = Joi.object({
         id: Joi.string().required(),
         object: Joi.string().required(),
@@ -38,17 +38,13 @@ export function validateEventRequestBody(body: any): Joi.ValidationResult {
         target_id: Joi.string().required(),
         target_name: Joi.string().required(),
         location: Joi.string().required(),
-        metadata: Joi.object({
-            redirect: Joi.string().required(),
-            description: Joi.string().required(),
-            x_request_id: Joi.string().required(),
-        }).required(),
+        metadata: Joi.object().required(),
     });
-    return schema.validate(body);
+    return schema.validate(body, { stripUnknown: true });
 }
 
 
-export function mapToEvent(reqBody: EventRequestBody): Event {
+export function mapToEvent(reqBody: AddEventRequestBody): Event {
     const newEvent: Event = {
         object: reqBody.object,
         actor_id: reqBody.actor_id,

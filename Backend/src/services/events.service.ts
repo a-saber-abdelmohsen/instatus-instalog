@@ -30,24 +30,28 @@ export async function addEvent(event: Event): Promise<Event | undefined> {
 }
 
 
-export async function getEventsPage(page: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: string): Promise<Event[]> {
+export async function getEventsPage(pageNumber: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: number): Promise<Event[]> {
     const prisma = new PrismaClient();
     try {
-        const skip = (page - 1) * pageSize;
+        const skip = (pageNumber - 1) * pageSize;
         const take = pageSize;
         let eventsQuery: any = {
             skip,
             take,
-            orderBy: { occurred_at: 'desc' }, // Assuming events are ordered by occurred_at date
+            orderBy: { occurred_at: 'desc' },
+            include: {
+                action: true,
+            }
         };
 
         if (searchText) {
             eventsQuery.where = {
                 OR: [
-                    { actor_name: { contains: searchText, mode: 'insensitive' } },
-                    { target_name: { contains: searchText, mode: 'insensitive' } },
-                    { location: { contains: searchText, mode: 'insensitive' } },
-                    { metadata: { contains: searchText, mode: 'insensitive' } },
+                    { group: { contains: searchText } },
+                    { actor_name: { contains: searchText } },
+                    { target_name: { contains: searchText } },
+                    { location: { contains: searchText } },
+                    { metadata: { contains: searchText } },
                 ],
             };
         }

@@ -1,5 +1,6 @@
 import { PrismaClient, Event } from '@prisma/client'
 import { error } from 'console';
+import { query } from 'express';
 
 
 
@@ -69,14 +70,14 @@ export async function getEventsPage(pageNumber: number, pageSize: number, search
             }
             eventsQuery.where.target_id = target_id;
         }
-
+        
         if (actionId) {
             if (!eventsQuery.where) {
                 eventsQuery.where = {};
             }
             eventsQuery.where.actionId = actionId;
         }
-
+        
         const events = await prisma.event.findMany(eventsQuery);
         return events;
     } catch (error) {

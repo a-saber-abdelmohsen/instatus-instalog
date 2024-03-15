@@ -37,7 +37,7 @@ export async function getActionByName(name: string): Promise<Action | undefined>
 
 
 
-async function getActions(action: Action): Promise<Action[] | undefined> {
+export async function getActions(): Promise<Action[] | undefined> {
     const prisma = new PrismaClient();
     try {
         const actionResult = await prisma.action.findMany();

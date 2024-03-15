@@ -4,7 +4,7 @@ import { getActionByName } from "../services/actions.services";
 import { addEvent, getEventsPage } from "../services/events.service";
 import { validateGetEventRequestQuery } from "../models/GetEventRequestBody";
 import { transformEventsToResponse } from "../models/EventResponse";
-import { DecodeId, ObjectType } from "../helpers/hashids";
+import { DecodeId, EncodeId, ObjectType } from "../helpers/hashids";
 
 export async function createEvent(req: Request<{}, {}, AddEventRequestBody>, res: Response) {
     const { error } = validateAddEventRequestBody(req.body);
@@ -27,7 +27,7 @@ export async function createEvent(req: Request<{}, {}, AddEventRequestBody>, res
         return res.status(500).send("Error encountered please try again later");
     }
 
-    return res.status(200).json(eventResult);
+    return res.status(201).json({ id: "evt_action_" + EncodeId(eventResult.id, ObjectType.Event) });
 }
 
 export async function getEvents(req: Request, res: Response) {
@@ -37,7 +37,7 @@ export async function getEvents(req: Request, res: Response) {
     }
     var actionId: number | undefined;
     if (value.action_id){
-        let actionId = DecodeId(value.action_id, ObjectType.Action);
+        actionId = DecodeId(value.action_id, ObjectType.Action);
         if (!actionId){
             return res.status(400).json({ error: "Invalid action_id" });
         }

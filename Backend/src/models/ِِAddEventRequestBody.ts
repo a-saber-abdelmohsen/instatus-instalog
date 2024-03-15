@@ -25,14 +25,11 @@ export interface AddEventRequestBody {
 
 export function validateAddEventRequestBody(body: any): Joi.ValidationResult {
     const schema = Joi.object({
-        id: Joi.string().required(),
         object: Joi.string().required(),
         actor_id: Joi.string().required(),
         actor_name: Joi.string().required(),
         group: Joi.string().required(),
         action: Joi.object({
-            id: Joi.string().required(),
-            object: Joi.string().required(),
             name: Joi.string().required(),
         }).required(),
         target_id: Joi.string().required(),

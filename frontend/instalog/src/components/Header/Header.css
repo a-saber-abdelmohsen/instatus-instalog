@@ -1,1 +1,17 @@
-.Header {}
+.search-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #F5F5F5;
+}
+
+
+.search-input-container {
+    padding-top: 22px;
+    padding-left: 22px;
+    padding-right: 22px;
+    background-color: #F5F5F5;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}

@@ -4,6 +4,7 @@ import { LogEntryType } from './types/LogTypes';
 import LogEntry from './components/LogEntry/LogEntry';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import Header from './components/Header/Header';
+import './App.css';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -18,19 +19,29 @@ const App: React.FC = () => {
   };
 
   const Search = () => {
-    // Logic to load more logs
+    // Logic to search
   };
 
   return (
     <div className="App bg-gray-100 font-sans">
-      <div className="bg-white rounded shadow-md">
-        <div className="p-6">
+      <div className="bg-white rounded">
+        <div className="main-container">
           <Header onSearch={Search} />
-          <ul className="divide-y divide-gray-200">
-            {data.map((log) => (
-              <LogEntry key={log.id} log={log} />
-            ))}
-          </ul>
+          <table className="min-w-full">
+            <thead >
+              <tr className='text-left log-table-header'>
+                <th >ACTOR</th>
+                <th >ACTION</th>
+                <th >DATE</th>
+                <th ></th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-600 text-sm font-medium">
+              {data.map((log) => (
+                <LogEntry key={log.id} log={log} />
+              ))}
+            </tbody>
+          </table>
           <LoadMoreButton onLoadMore={handleLoadMore} />
         </div>
       </div>

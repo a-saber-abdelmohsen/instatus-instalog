@@ -7,9 +7,9 @@ interface LoadMoreButtonProps {
 
 const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({ onLoadMore }) => {
   return (
-    <div className="p-6 bg-gray-100">
+    <div className="load-more-btn-container">
       <button
-        className="w-full text-gray-500"
+        className="w-full load-more-btn"
         onClick={onLoadMore}
       >
         Load More

@@ -12,12 +12,11 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   };
 
   return (
-    <header className="bg-white">
-      {/* Your header layout */}
+    <header className="bg-white search-input-container">
       <input
         type="text"
         onChange={handleSearch}
-        className="w-full p-3 rounded-md border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="search-input w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
         placeholder="Search name, email or action..."
       />
     </header>

@@ -1,15 +1,15 @@
 import React from 'react';
 import useSWR from 'swr';
-import { LogEntryType } from './types/LogTypes';
 import LogEntry from './components/LogEntry/LogEntry';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import Header from './components/Header/Header';
 import './App.css';
+import { EventsPaginationResponse } from './types/EventsPaginationResponse';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const App: React.FC = () => {
-  const { data, error } = useSWR<LogEntryType[]>('http://localhost:3000/events', fetcher);
+  const { data, error } = useSWR<EventsPaginationResponse>('http://localhost:3000/events', fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -37,12 +37,13 @@ const App: React.FC = () => {
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-medium">
-              {data.map((log) => (
+              {data.events.map((log) => (
                 <LogEntry key={log.id} log={log} />
               ))}
             </tbody>
           </table>
-          <LoadMoreButton onLoadMore={handleLoadMore} />
+          
+          {data.pagination.hasNext ? <LoadMoreButton  onLoadMore={handleLoadMore}/> : null}
         </div>
       </div>
     </div>

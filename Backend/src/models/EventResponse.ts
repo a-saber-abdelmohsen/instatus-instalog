@@ -1,7 +1,7 @@
 import { Event } from "@prisma/client";
 import { EncodeId, ObjectType } from "../helpers/hashids";
 
-interface EventResponse {
+export interface EventResponse {
     id: string;
     object: string;
     actor_id: string;

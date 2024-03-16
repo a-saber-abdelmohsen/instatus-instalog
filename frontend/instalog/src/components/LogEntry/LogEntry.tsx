@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogEntryType } from '../../types/LogTypes';
+import { LogEntryType } from '../../types/LogEntryType';
 import './LogEntry.css'
 
 interface LogEntryProps {
@@ -12,7 +12,7 @@ const LogEntry: React.FC<LogEntryProps> = ({ log }) => {
       <td className="px-6 py-4 whitespace-nowrap log-table-data">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
-            <div className="flex-shrink-0 h-8 w-8 rounded-full background-gradient-10 text-white flex items-center justify-center mr-4">{log.actor_name.split('')[0]}</div>
+            <div className="flex-shrink-0 h-8 w-8 rounded-full background-gradient-1 text-white flex items-center justify-center mr-4">{log.actor_name.split('')[0]}</div>
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium">{log.actor_name}</div>

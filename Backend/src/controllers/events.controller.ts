@@ -5,6 +5,7 @@ import { addEvent, getEventsPage } from "../services/events.service";
 import { validateGetEventRequestQuery } from "../models/GetEventRequestBody";
 import { transformEventsToResponse } from "../models/EventResponse";
 import { DecodeId, EncodeId, ObjectType } from "../helpers/hashids";
+import { EventsPaginationResponse } from "../models/EventsPaginationResponse";
 
 export async function createEvent(req: Request<{}, {}, AddEventRequestBody>, res: Response) {
     const { error } = validateAddEventRequestBody(req.body);
@@ -55,5 +56,10 @@ export async function getEvents(req: Request, res: Response) {
     if (eventsResult === undefined) {
         return res.status(500).send("Error encountered please try again later");
     }
-    return res.status(200).json(transformEventsToResponse(eventsResult));
+
+    const result: EventsPaginationResponse = {
+        events: transformEventsToResponse(eventsResult.events),
+        pagination: eventsResult.pagination
+    }
+    return res.status(200).json(result);
 }

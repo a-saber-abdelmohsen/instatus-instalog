@@ -1,6 +1,7 @@
 import { PrismaClient, Event } from '@prisma/client'
 import { error } from 'console';
 import { query } from 'express';
+import { PaginationResult } from '../models/PaginationResult';
 
 
 
@@ -31,14 +32,12 @@ export async function addEvent(event: Event): Promise<Event | undefined> {
 }
 
 
-export async function getEventsPage(pageNumber: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: number): Promise<Event[]> {
+export async function getEventsPage(pageNumber: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: number): Promise<{events: Event[], pagination: PaginationResult}> {
     const prisma = new PrismaClient();
     try {
         const skip = (pageNumber - 1) * pageSize;
         const take = pageSize;
         let eventsQuery: any = {
-            skip,
-            take,
             orderBy: { occurred_at: 'desc' },
             include: {
                 action: true,
@@ -77,9 +76,24 @@ export async function getEventsPage(pageNumber: number, pageSize: number, search
             }
             eventsQuery.where.actionId = actionId;
         }
+
+        const totalEventsCount = await prisma.event.count({where: eventsQuery.where});
         
+        
+        
+        eventsQuery.skip = skip;
+        eventsQuery.take = take;
+        const pagination: PaginationResult = {
+            currentPage: pageNumber,
+            totalCount: totalEventsCount,
+            pageSize: pageSize,
+            totalPages: Math.ceil(totalEventsCount/pageSize),
+            get hasNext() {
+                return this.currentPage < this.totalPages;
+            },
+        }
         const events = await prisma.event.findMany(eventsQuery);
-        return events;
+        return { events, pagination };
     } catch (error) {
         console.error("Error fetching events:", error);
         throw new Error("Failed to fetch events");

@@ -27,21 +27,16 @@ const App: React.FC = () => {
       <div className="bg-white rounded">
         <div className="main-container">
           <Header onSearch={Search} />
-          <table className="min-w-full">
-            <thead >
-              <tr className='text-left log-table-header'>
-                <th >ACTOR</th>
-                <th >ACTION</th>
-                <th >DATE</th>
-                <th ></th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-600 text-sm font-medium">
-              {data.events.map((log) => (
-                <LogEntry key={log.id} log={log} />
+            <div className='flex list-title-container'>
+                <div className='flex-1 list-title'>ACTOR</div>
+                <div className='flex-1 list-title'>ACTION</div>
+                <div className='flex-1 list-title'>DATE</div>
+            </div>
+            <div >
+              {data.events.map((log, index) => (
+                <LogEntry key={log.id} log={log} expand={false} />
               ))}
-            </tbody>
-          </table>
+            </div>
           
           {data.pagination.hasNext ? <LoadMoreButton  onLoadMore={handleLoadMore}/> : null}
         </div>

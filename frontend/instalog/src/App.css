@@ -7,14 +7,12 @@
   border-radius: 14px;
 }
 
-.log-table-header {
+.list-title-container {
   background-color: #F5F5F5;
+  padding: 22px;
 }
 
-.log-table-header>th {
-  padding-left: 22px;
-  padding-top: 22px;
-  padding-bottom: 22px;
+.list-title {
   font-family: Inter;
   font-size: 14px;
   font-weight: 600;

@@ -8,42 +8,64 @@
     color: #616161;
 }
 
-.background-gradient-1 {
-    background: linear-gradient(138.62deg, #F3994A 14.17%, #B325E2 84.99%);
+.banner-container {
+    overflow: visible;
+    position: relative;
+    height: 300px;
+
 }
 
-.background-gradient-2 {
-    background: linear-gradient(138.62deg, #9347DF 14.17%, #EC1A46 84.99%);
+.banner {
+    border: 1px solid #DFDFDF;
+    height: 100%;
+    width: 103%;
+    padding-left: calc(1.5% + 22px);
+    padding-right: calc(1.5% + 22px);
+    padding-top: 22px;
+    padding-bottom: 22px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+    background-color: #FFFFFF;
 }
 
-.background-gradient-3 {
-    background: linear-gradient(138.62deg, #8947FE 14.17%, #B319FE 84.99%);
+.banner-row {
+    padding-bottom: 20px;
 }
 
-.background-gradient-4 {
-    background: linear-gradient(138.62deg, #704f31 14.17%, #6d457a 84.99%);
+.banner-sec-title {
+    font-family: Inter;
+    padding-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #929292;
 }
 
-.background-gradient-5 {
-    background: linear-gradient(138.62deg, #f3c9a4 14.17%, #6f5b75 84.99%);
+.banner-sec-data-title {
+    width: 27%;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #929292;
 }
 
-.background-gradient-6 {
-    background: linear-gradient(138.62deg, #f3933e 14.17%, #301938 84.99%);
+.banner-sec {
+    padding-top: 12px;
 }
 
-.background-gradient-7 {
-    background: linear-gradient(138.62deg, #413b37 14.17%, #c060e0 84.99%);
-}
-
-.background-gradient-8 {
-    background: linear-gradient(138.62deg, #6e8f43 14.17%, #814bc7 84.99%);
-}
-
-.background-gradient-9 {
-    background: linear-gradient(138.62deg, #df74a6 14.17%, #e7c35f 84.99%);
-}
-
-.background-gradient-10 {
-    background: linear-gradient(138.62deg, #54854e 14.17%, #85f8c3 84.99%);
+.banner-sec-data {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
 }

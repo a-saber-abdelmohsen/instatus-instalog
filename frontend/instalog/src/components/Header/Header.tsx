@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import './Header.css';
 
-// components/Header.tsx
 interface HeaderProps {
   onSearch: (query: string) => void;
 }

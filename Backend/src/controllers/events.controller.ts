@@ -28,7 +28,7 @@ export async function createEvent(req: Request<{}, {}, AddEventRequestBody>, res
         return res.status(500).send("Error encountered please try again later");
     }
 
-    return res.status(201).json({ id: "evt_action_" + EncodeId(eventResult.id, ObjectType.Event) });
+    return res.status(201).json({ id: "evt_" + EncodeId(eventResult.id, ObjectType.Event) });
 }
 
 export async function getEvents(req: Request, res: Response) {
@@ -37,10 +37,18 @@ export async function getEvents(req: Request, res: Response) {
         return res.status(400).json({ error: error.details[0].message });
     }
     var actionId: number | undefined;
+    var cursor_id: number | undefined;
     if (value.action_id){
         actionId = DecodeId(value.action_id, ObjectType.Action);
         if (!actionId){
             return res.status(400).json({ error: "Invalid action_id" });
+        }
+    }
+
+    if (value.cursor_id && value.cursor_id != ""){
+        cursor_id = DecodeId(value.cursor_id, ObjectType.Event);
+        if (!cursor_id){
+            return res.status(400).json({ error: "Invalid cursor_id" });
         }
     }
     
@@ -51,7 +59,8 @@ export async function getEvents(req: Request, res: Response) {
         value.searchKey,
         value.actor_id,
         value.target_id,
-        actionId
+        actionId, 
+        cursor_id
     )
     if (eventsResult === undefined) {
         return res.status(500).send("Error encountered please try again later");

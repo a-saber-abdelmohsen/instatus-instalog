@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 import LogEntry from './components/LogEntry/LogEntry';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import Header from './components/Header/Header';
@@ -10,36 +10,45 @@ import { EventsPaginationResponse } from './types/EventsPaginationResponse';
 const fetcher = async (url: string): Promise<EventsPaginationResponse> => {
   const response = await fetch(url);
   if (!response.ok) {
-      throw new Error('Failed to fetch data');
+    throw new Error('Failed to fetch data');
   }
   return response.json();
 };
+
+
 const App: React.FC = () => {
-  const { data, error, mutate } = useSWR<EventsPaginationResponse>('http://localhost:3000/events', fetcher);
-  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
   const [searchKey, setSearchKey] = useState<string>('');
-  const [pageNumber, setPageNumber] = useState<number>(1);
   const [loadMoreAvailable, setLoadMoreState] = useState<boolean>(true);
+  const [cursorId, setCursorId] = useState<string | null>(null);
+  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
+
+  const getKey = (pageIndex: number, previousPageData: EventsPaginationResponse | null) => {
+    //first page is 1 
+    pageIndex = pageIndex + 1;
+    let url = `http://localhost:3000/events?pageNumber=${pageIndex}`
+
+    if (searchKey && searchKey.trim() !== "") {
+      url = url + `&searchKey=${searchKey}`
+    }
+
+    if (cursorId) {
+      url = url + `&cursor_id=${cursorId}`
+    }
+
+    if (previousPageData && !(previousPageData.pagination.hasNext)) {
+      setLoadMoreState(false)
+    }
+    return url;
+  };
+
+  const { data, error, size, setSize } = useSWRInfinite<EventsPaginationResponse>(getKey, fetcher); 
   let searchTimeout: NodeJS.Timeout | null = null;
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  const handleLoadMore = async () => {
-    const nextPageNumber = pageNumber + 1;
-    let url = `http://localhost:3000/events?pageNumber=${nextPageNumber}&&searchKey=${searchKey}`;
-    if (searchKey === "") {
-      url = `http://localhost:3000/events?pageNumber=${nextPageNumber}`;
-    }
-    const newData = await fetcher(url);
-    // Assuming data structure remains consistent
-    const updatedData = {
-      ...data,
-      events: [...data.events, ...newData.events],
-    };
-    setPageNumber(nextPageNumber);
-    setLoadMoreState(newData.pagination.hasNext)
-    mutate(updatedData, false); // Update the data without re-fetching
+  const handleLoadMore = () => {
+    setSize(size + 1); // Increment page size to fetch the next page
   };
 
   const handleSearch = (query: string) => {
@@ -54,11 +63,10 @@ const App: React.FC = () => {
         url = `http://localhost:3000/events`;
       }
       setSearchKey(query);
-      const newData = await fetcher(url);
-      setLoadMoreState(newData.pagination.hasNext)
-      setPageNumber(1);
+      setCursorId(null);
+      setLoadMoreState(true);
       setExpandedLogId(null);
-      mutate(newData, false);
+      setSize(1);
     }, 1000);
   };
 
@@ -69,6 +77,10 @@ const App: React.FC = () => {
       setExpandedLogId(logId); // Expand clicked log
     }
   };
+
+  if (data && data[0]?.events.length > 0 && !cursorId) {
+    setCursorId(data[0].events[0].id);
+  }
 
   return (
     <div className="App bg-gray-100 font-sans">
@@ -81,15 +93,18 @@ const App: React.FC = () => {
             <div className='flex-1 list-title'>DATE</div>
           </div>
           <div >
-            {
-              data.events.map((log, index) => (
-                <LogEntry
-                  key={log.id}
-                  log={log}
-                  expand={expandedLogId === log.id} // Pass whether to expand or not
-                  onClick={() => handleLogClick(log.id)} // Pass onClick handler
-                />
-              ))}
+            {data.map((pageData, pageIndex) => (
+              <React.Fragment key={pageIndex}>
+                {pageData.events.map((log, index) => (
+                  <LogEntry
+                    key={log.id}
+                    log={log}
+                    expand={expandedLogId === log.id}
+                    onClick={() => handleLogClick(log.id)}
+                  />
+                ))}
+              </React.Fragment>
+            ))}
           </div>
 
           {loadMoreAvailable ? <LoadMoreButton onLoadMore={handleLoadMore} /> : null}

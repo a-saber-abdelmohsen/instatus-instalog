@@ -32,7 +32,7 @@ export async function addEvent(event: Event): Promise<Event | undefined> {
 }
 
 
-export async function getEventsPage(pageNumber: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: number): Promise<{events: Event[], pagination: PaginationResult}> {
+export async function getEventsPage(pageNumber: number, pageSize: number, searchText?: string, actor_id?: string, target_id?: string, actionId?: number, cursor_id?: number): Promise<{ events: Event[], pagination: PaginationResult }> {
     const prisma = new PrismaClient();
     try {
         const skip = (pageNumber - 1) * pageSize;
@@ -56,6 +56,22 @@ export async function getEventsPage(pageNumber: number, pageSize: number, search
             };
         }
 
+        if (cursor_id) {
+            if (!eventsQuery.where) {
+                eventsQuery.where = {};
+            }
+            eventsQuery.where.id = {
+                lte: cursor_id,
+            };
+        }
+
+        if (actor_id) {
+            if (!eventsQuery.where) {
+                eventsQuery.where = {};
+            }
+            eventsQuery.where.actor_id = actor_id;
+        }
+
         if (actor_id) {
             if (!eventsQuery.where) {
                 eventsQuery.where = {};
@@ -69,7 +85,7 @@ export async function getEventsPage(pageNumber: number, pageSize: number, search
             }
             eventsQuery.where.target_id = target_id;
         }
-        
+
         if (actionId) {
             if (!eventsQuery.where) {
                 eventsQuery.where = {};
@@ -77,17 +93,17 @@ export async function getEventsPage(pageNumber: number, pageSize: number, search
             eventsQuery.where.actionId = actionId;
         }
 
-        const totalEventsCount = await prisma.event.count({where: eventsQuery.where});
-        
-        
-        
+        const totalEventsCount = await prisma.event.count({ where: eventsQuery.where });
+
+
+
         eventsQuery.skip = skip;
         eventsQuery.take = take;
         const pagination: PaginationResult = {
             currentPage: pageNumber,
             totalCount: totalEventsCount,
             pageSize: pageSize,
-            totalPages: Math.ceil(totalEventsCount/pageSize),
+            totalPages: Math.ceil(totalEventsCount / pageSize),
             get hasNext() {
                 return this.currentPage < this.totalPages;
             },

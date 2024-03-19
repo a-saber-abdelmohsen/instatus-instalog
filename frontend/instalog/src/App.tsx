@@ -42,7 +42,9 @@ const App: React.FC = () => {
   const getKey = (pageIndex: number, previousPageData: EventsPaginationResponse | null) => {
     //first page is 1 
     pageIndex = pageIndex + 1;
-    let baseURL = process.env.BACKEND_BASE_URL;
+    let baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+    console.log(baseURL);
+    
     if(!baseURL){
       console.log("no Base_URL provided ")
       baseURL = "http://localhost:3000"

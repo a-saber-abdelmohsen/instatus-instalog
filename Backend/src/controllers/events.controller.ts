@@ -39,15 +39,23 @@ export async function getEvents(req: Request, res: Response) {
     var actionId: number | undefined;
     var cursor_id: number | undefined;
     if (value.action_id){
-        actionId = DecodeId(value.action_id, ObjectType.Action);
-        if (!actionId){
+        try{
+            actionId = DecodeId(value.action_id, ObjectType.Action);
+            if (!actionId){
+                return res.status(400).json({ error: "Invalid action_id" });
+            }
+        }catch(error){
             return res.status(400).json({ error: "Invalid action_id" });
         }
     }
 
     if (value.cursor_id && value.cursor_id != ""){
-        cursor_id = DecodeId(value.cursor_id, ObjectType.Event);
-        if (!cursor_id){
+        try {
+            cursor_id = DecodeId(value.cursor_id, ObjectType.Event);
+            if (!cursor_id){
+                return res.status(400).json({ error: "Invalid cursor_id" });
+            }
+        } catch (error) {
             return res.status(400).json({ error: "Invalid cursor_id" });
         }
     }

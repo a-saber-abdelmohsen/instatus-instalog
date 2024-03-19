@@ -42,7 +42,13 @@ const App: React.FC = () => {
   const getKey = (pageIndex: number, previousPageData: EventsPaginationResponse | null) => {
     //first page is 1 
     pageIndex = pageIndex + 1;
-    let url = `http://localhost:3000/events?pageNumber=${pageIndex}`
+    let baseURL = process.env.DATABASE_URL;
+    if(!baseURL){
+      console.log("no Base_URL provided ")
+      baseURL = "http://localhost:3000"
+    }
+
+    let url = `${baseURL}/events?pageNumber=${pageIndex}`
 
     if (searchKey && searchKey.trim() !== "") {
       url = url + `&searchKey=${searchKey}`

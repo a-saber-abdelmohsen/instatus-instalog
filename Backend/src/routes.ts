@@ -12,13 +12,6 @@ function routes(app: Express) {
     }
     app.all("/health", cors(corsOptions), (req: Request, res: Response) => res.sendStatus(200));
 
-
-    // app.get("/api/books/:bookId/:authorId",
-    //     (req: Request<{ bookId: string, authorId: string }, {}, {}, {}>, res: Response) => {
-    //         console.log(req.params);
-
-    //     })
-
     app.post("/events", cors(corsOptions), createEvent);
     app.get("/events", cors(corsOptions), getEvents);
 

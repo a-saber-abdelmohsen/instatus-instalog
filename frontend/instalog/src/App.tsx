@@ -43,7 +43,6 @@ const App: React.FC = () => {
     //first page is 1 
     pageIndex = pageIndex + 1;
     let baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
-    console.log(baseURL);
     
     if(!baseURL){
       console.log("no Base_URL provided ")

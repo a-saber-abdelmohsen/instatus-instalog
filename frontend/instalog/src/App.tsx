@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import LogEntry from './components/LogEntry/LogEntry';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import Header from './components/Header/Header';
 import './App.css';
 import { EventsPaginationResponse } from './types/EventsPaginationResponse';
+import { LogEntryType } from './types/LogEntryType';
 
 
 const fetcher = async (url: string): Promise<EventsPaginationResponse> => {
@@ -18,7 +19,6 @@ const fetcher = async (url: string): Promise<EventsPaginationResponse> => {
 
 const App: React.FC = () => {
   const [searchKey, setSearchKey] = useState<string>('');
-  const [loadMoreAvailable, setLoadMoreState] = useState<boolean>(true);
   const [cursorId, setCursorId] = useState<string | null>(null);
   const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
 
@@ -35,15 +35,13 @@ const App: React.FC = () => {
       url = url + `&cursor_id=${cursorId}`
     }
 
-    if (previousPageData && !(previousPageData.pagination.hasNext)) {
-      setLoadMoreState(false)
-    }
     return url;
   };
 
   const { data, error, size, setSize } = useSWRInfinite<EventsPaginationResponse>(getKey, fetcher); 
   let searchTimeout: NodeJS.Timeout | null = null;
 
+  
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
@@ -64,7 +62,6 @@ const App: React.FC = () => {
       }
       setSearchKey(query);
       setCursorId(null);
-      setLoadMoreState(true);
       setExpandedLogId(null);
       setSize(1);
     }, 1000);
@@ -82,11 +79,44 @@ const App: React.FC = () => {
     setCursorId(data[0].events[0].id);
   }
 
+  // Format events data into CSV format
+  const formatEventsAsCSV = () => {
+    const csvContent = 'data:text/csv;charset=utf-8,';
+    const headers = ['Actor', 'Action', 'Date'];
+    const events = ([] as LogEntryType[]).concat(...data.map((d) => (d.events || [])));
+    const rows = events.map(event => [event.actor_name, event.action.name, event.occurred_at].join(','));
+
+    // Combine headers and rows
+    const csvRows = [headers.join(','), ...rows];
+
+    // Join rows with newline character
+    const csvString = csvContent + csvRows.join('\n');
+
+    // Create a data URI and trigger download
+    const encodedURI = encodeURI(csvString);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedURI);
+    link.setAttribute('download', 'events.csv');
+    document.body.appendChild(link);
+    link.click();
+  };
+
+  const onFiltersButtonClicked = () => {
+    
+  };
+
+  const onLiveButtonClicked = () => {
+    
+  };
+
+  
+  const totalEventsCount = data.reduce((total, page) => total + page.events.length, 0);
+
   return (
     <div className="App bg-gray-100 font-sans">
       <div className="bg-white rounded">
         <div className="main-container">
-          <Header onSearch={handleSearch} />
+          <Header onSearch={handleSearch} formatEventsAsCSV={formatEventsAsCSV} onFiltersButtonClicked={onFiltersButtonClicked} onLiveButtonClicked={onLiveButtonClicked}/>
           <div className='flex list-title-container'>
             <div className='flex-1 list-title'>ACTOR</div>
             <div className='flex-1 list-title'>ACTION</div>
@@ -107,7 +137,7 @@ const App: React.FC = () => {
             ))}
           </div>
 
-          {loadMoreAvailable ? <LoadMoreButton onLoadMore={handleLoadMore} /> : null}
+          {!(totalEventsCount == data[0]?.pagination.totalCount) ? <LoadMoreButton onLoadMore={handleLoadMore} /> : null}
         </div>
       </div>
     </div>

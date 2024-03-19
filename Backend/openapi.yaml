@@ -1,0 +1,742 @@
+openapi: 3.1.3
+info:
+  title: local Instalog
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://localhost:3000
+paths:
+  /events:
+    get:
+      summary: /events
+      description: /events
+      operationId: events1
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: string
+            example: "1"
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+            example: "10"
+        - name: actor_id
+          in: query
+          schema:
+            type: string
+            example: user_6MH3Q8J2TL
+        - name: target_id
+          in: query
+          schema:
+            type: string
+            example: user_6MH3Q8J2TL
+        - name: action_id
+          in: query
+          schema:
+            type: string
+            example: evt_action_57PM17EYEO94
+        - name: cursor_id
+          in: query
+          schema:
+            type: string
+            example: evt_KDQ6JE8WMV2Y
+      responses:
+        "200":
+          description: /events
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "621"
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Tue, 19 Mar 2024 13:00:16 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"26d-cxlPe4mAooeasiJ1rGAJE7ijroI"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: "?1"
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: "off"
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: "0"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: evt_action_57PM17EYEO94
+                            name:
+                              type: string
+                              example: user.searched_activity_log_events
+                            object:
+                              type: string
+                              example: event_action
+                        actionId:
+                          type: string
+                          example: evt_action_57PM17EYEO94
+                        actor_id:
+                          type: string
+                          example: user_3VG74AAS67E
+                        actor_name:
+                          type: string
+                          example: H S Hany
+                        group:
+                          type: string
+                          example: amazon.com.eg
+                        id:
+                          type: string
+                          example: evt_5PVYM5OL7QE3
+                        location:
+                          type: string
+                          example: 155.240.123.225
+                        metadata:
+                          type: object
+                          properties:
+                            description:
+                              type: string
+                              example: User searched activity log.
+                            redirect:
+                              type: string
+                              example: /setup
+                            x_request_id:
+                              type: string
+                              example: req_WA1VG74DRG812
+                        object:
+                          type: string
+                          example: event
+                        occurred_at:
+                          type: string
+                          example: "2024-03-14T15:25:17.538Z"
+                        target_id:
+                          type: string
+                          example: user_ASDRG8731WA1
+                        target_name:
+                          type: string
+                          example: hshany@amazon.com.eg
+                    example:
+                      - action:
+                          id: evt_action_57PM17EYEO94
+                          name: user.searched_activity_log_events
+                          object: event_action
+                        actionId: evt_action_57PM17EYEO94
+                        actor_id: user_3VG74AAS67E
+                        actor_name: H S Hany
+                        group: amazon.com.eg
+                        id: evt_5PVYM5OL7QE3
+                        location: 155.240.123.225
+                        metadata:
+                          description: User searched activity log.
+                          redirect: /setup
+                          x_request_id: req_WA1VG74DRG812
+                        object: event
+                        occurred_at: "2024-03-14T15:25:17.538Z"
+                        target_id: user_ASDRG8731WA1
+                        target_name: hshany@amazon.com.eg
+                  pagination:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                        example: 1
+                      hasNext:
+                        type: boolean
+                        example: false
+                      pageSize:
+                        type: number
+                        example: 10
+                      totalCount:
+                        type: number
+                        example: 1
+                      totalPages:
+                        type: number
+                        example: 1
+              examples:
+                /events:
+                  value:
+                    events:
+                      - action:
+                          id: evt_action_57PM17EYEO94
+                          name: user.searched_activity_log_events
+                          object: event_action
+                        actionId: evt_action_57PM17EYEO94
+                        actor_id: user_3VG74AAS67E
+                        actor_name: H S Hany
+                        group: amazon.com.eg
+                        id: evt_5PVYM5OL7QE3
+                        location: 155.240.123.225
+                        metadata:
+                          description: User searched activity log.
+                          redirect: /setup
+                          x_request_id: req_WA1VG74DRG812
+                        object: event
+                        occurred_at: "2024-03-14T15:25:17.538Z"
+                        target_id: user_ASDRG8731WA1
+                        target_name: hshany@amazon.com.eg
+                    pagination:
+                      currentPage: 1
+                      hasNext: false
+                      pageSize: 10
+                      totalCount: 1
+                      totalPages: 1
+    post:
+      summary: /events
+      description: /events
+      operationId: events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: document.create_succeeded
+                actor_id:
+                  type: string
+                  example: user_6MH3Q8J2TL
+                actor_name:
+                  type: string
+                  example: Emma White
+                group:
+                  type: string
+                  example: microsoft.com
+                location:
+                  type: string
+                  example: 98.76.54.32
+                metadata:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      example: document successfully created.
+                    redirect:
+                      type: string
+                      example: /documents
+                    x_request_id:
+                      type: string
+                      example: req_T9A2Z5R4P7
+                object:
+                  type: string
+                  example: event
+                target_id:
+                  type: string
+                  example: user_R7FP2W9VGX
+                target_name:
+                  type: string
+                  example: emma.white@microsoft.com
+            examples:
+              /events:
+                value:
+                  action:
+                    name: document.create_succeeded
+                  actor_id: user_6MH3Q8J2TL
+                  actor_name: Emma White
+                  group: microsoft.com
+                  location: 98.76.54.32
+                  metadata:
+                    description: document successfully created.
+                    redirect: /documents
+                    x_request_id: req_T9A2Z5R4P7
+                  object: event
+                  target_id: user_R7FP2W9VGX
+                  target_name: emma.white@microsoft.com
+      responses:
+        "201":
+          description: /events
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "25"
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Tue, 19 Mar 2024 13:01:45 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"19-xJPNt4s4xy6IlI1g0/nasfuC5JI"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: "?1"
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: "off"
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: "0"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: evt_7W64JZEQJDK8
+              examples:
+                /events:
+                  value:
+                    id: evt_7W64JZEQJDK8
+  /actions:
+    get:
+      summary: /actions
+      description: /actions
+      operationId: actions1
+      responses:
+        "201":
+          description: /actions
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "2179"
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Tue, 19 Mar 2024 13:01:36 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"883-8eX7Y8u2gq9oVrsb7+iayXPa/nM"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: "?1"
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: "off"
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: "0"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: evt_action_ZM3K1WDY8ND0
+                    name:
+                      type: string
+                      example: user.login_succeeded
+                    object:
+                      type: string
+                      example: event_action
+                example:
+                  - id: evt_action_ZM3K1WDY8ND0
+                    name: user.login_succeeded
+                    object: event_action
+                  - id: evt_action_26G01MNRP4NL
+                    name: user.login_failed
+                    object: event_action
+                  - id: evt_action_57PM17EYEO94
+                    name: user.searched_activity_log_events
+                    object: event_action
+                  - id: evt_action_KV8L1NZ12DGJ
+                    name: incident.create_succeeded
+                    object: event_action
+              examples:
+                /actions:
+                  value:
+                    - id: evt_action_ZM3K1WDY8ND0
+                      name: user.login_succeeded
+                      object: event_action
+                    - id: evt_action_26G01MNRP4NL
+                      name: user.login_failed
+                      object: event_action
+                    - id: evt_action_57PM17EYEO94
+                      name: user.searched_activity_log_events
+                      object: event_action
+                    - id: evt_action_KV8L1NZ12DGJ
+                      name: incident.create_succeeded
+                      object: event_action
+    post:
+      summary: /actions
+      description: /actions
+      operationId: actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: user.account_unlocked
+                object:
+                  type: string
+                  example: event_action
+            examples:
+              /actions:
+                value:
+                  name: user.account_unlocked
+                  object: event_action
+      responses:
+        "201":
+          description: /actions
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "32"
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Tue, 19 Mar 2024 13:08:14 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"20-PT8oZfSGL2nnPnNG91q4BQ6Kgts"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: "?1"
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: "off"
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: "0"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: evt_action_26G01MNNRP4N
+              examples:
+                /actions:
+                  value:
+                    id: evt_action_26G01MNNRP4N
+        "400":
+          description: /actions
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "20"
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Tue, 19 Mar 2024 13:01:28 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"14-A6kS1kxRY2xD53ipFCYEPrGUVvM"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: "?1"
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: "off"
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: "0"
+          content:
+            text/plain:
+              examples:
+                /actions:
+                  value: Action already exist
+tags: []
